@@ -19,7 +19,7 @@ spec:
         image: mysql:8.0
         ports:
         - containerPort: 3306
-      envFrom:
-        - secretRef:
-            name: mysql-secret
+        envFrom:
+          - secretRef:
+              name: mysql-secret
 
