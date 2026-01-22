@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spring-boot-app
-          image: sunilkumar45/spring-boot-app:replaceImageTag
+          image: sunilkumar45/spring-boot-app:11
           ports:
             - containerPort: 2330
           env:
