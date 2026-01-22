@@ -31,34 +31,19 @@ pipeline {
             }
         }
 
-        stage('Maven Build') {
-            steps {
-                echo '============= Building with Maven ============='
-                sh 'mvn clean compile'
-            }
+         stage('Build Maven') {
+          steps {
+            echo "Building application jar"
+            sh 'mvn  clean package -DskipTests'
+          }
         }
-
-        stage('Maven Test') {
-            steps {
-                echo '================ Unit Testing ================'
-                sh 'mvn clean test -DskipTests'
-            }
-        }
-
-        stage('Maven Package') {
-            steps {
-                echo '================ Maven Package Building =============='
-                sh 'mvn package -DskipTests'
-            }
-        }
-
         stage('Static Code Analysis') {
            steps {
               withSonarQubeEnv('sonarqube-server') {
                  withCredentials([string(credentialsId: 'sonrqube', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                          mvn clean verify sonar:sonar \
-                          -Dsonar.token=$SONAR_TOKEN \
+                          mvn sonar:sonar \
+                          -Dsonar.login=$SONAR_TOKEN \
                           -Dsonar.host.url=http://192.168.0.108:9000 \
                           -Dsonar.ws.timeout=120 \
                           -Dsonar.plugins.downloadOnlyRequired=true
@@ -67,7 +52,6 @@ pipeline {
                 }
             }
         }
-
 
         stage('Docker Build') {
             steps {
