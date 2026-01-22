@@ -1,0 +1,17 @@
+# ------------- Build Stage --------------
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+WORKDIR /app
+
+# --------- Copy the Source Code ----------
+COPY pom.xml .
+COPY src ./src
+
+# ---------- Building JAR ------------------
+RUN mvn clean package -DskipTests
+
+# -------------- Rutime Stage ----------------
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 2330
+ENTRYPOINT ["java", "-jar", "app.jar"]
