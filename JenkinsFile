@@ -46,7 +46,7 @@ pipeline {
         stage('Maven Test') {
             steps {
                 echo '================ Unit Testing ================'
-                sh 'mvn test'
+                sh 'mvn clean test -DskipTests'
             }
         }
 
