@@ -93,20 +93,20 @@ pipeline {
                         git config user.name "sunilkbiswal1"
 
                         echo "Verify depooyment file exist ............"
-                        if [ ! -f Deployment/deployment.yml ]; then
-                           echo "Error: deployment.yml not found"
+                        if [ ! -f Deployment/app-deployment.yml ]; then
+                           echo "Error: app-deployment.yml not found"
                            exit 1
                         fi
 
                         echo "Update Deployment File................."
-                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" Deployment/deployment.yml
+                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" Deployment/app-deployment.yml
 
                         echo "Add, Commmit & Push..............."
-                        git add Deployment/deployment.yml
+                        git add Deployment/app-deployment.yml
                         git commit -m "Update Deployment image to version ${BUILD_NUMBER}" || echo "No changes to commit"
                         git push origin main
 
-                        echo "Succesfully pushed chaanged to GitHub"
+                        echo "Succesfully pushed changed to GitHub"
                     '''
                 }
             }
