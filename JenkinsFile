@@ -93,13 +93,13 @@ pipeline {
                         git config user.name "sunilkbiswal1"
 
                         echo "Verify depooyment file exist ............"
-                        if [ ! -f Deployment/app-deployment.yml ]; then
+                        if [ -f Deployment/app-deployment.yml ]; then
+                           echo "Update Deployment File................."
+                           sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" Deployment/app-deployment.yml
+                        else
                            echo "Error: app-deployment.yml not found"
                            exit 1
                         fi
-
-                        echo "Update Deployment File................."
-                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" Deployment/app-deployment.yml
 
                         echo "Add, Commmit & Push..............."
                         git add Deployment/app-deployment.yml
